@@ -34,7 +34,7 @@ const authFormSchema = (formType: FormType) => {
 const AuthForm = ({ type }: { type: FormType }) => {
   const [isLoading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
-  const [accountId, setAccountId] = useState(null);
+  const [accountId, setAccountId] = useState("");
 
   const formSchema = authFormSchema(type);
   const form = useForm<z.infer<typeof formSchema>>({
@@ -148,7 +148,7 @@ const AuthForm = ({ type }: { type: FormType }) => {
       </Form>
       {/* OTP Verification */}
 
-      {true && (
+      {accountId && (
         <OTPModal email={form.getValues("email")} accountId={accountId} />
       )}
     </>
