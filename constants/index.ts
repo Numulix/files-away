@@ -8,3 +8,5 @@ export const navItems = [
 
 export const avatarPlaceholder =
   "https://static-00.iconduck.com/assets.00/avatar-default-icon-2048x2048-h6w375ur.png";
+
+export const MAX_FILE_SIZE = 50 * 1024 * 1024;

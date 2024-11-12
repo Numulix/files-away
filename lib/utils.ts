@@ -1,5 +1,6 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
+import { appwriteConfig } from "./appwrite/config";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -76,4 +77,8 @@ export const getFileIcon = (extenstion: string, type: string) => {
     return `/assets/icons/extensions/${extenstion}.svg`;
 
   return `/assets/icons/default/${type}.svg`;
+};
+
+export const constructFileUrl = (bucketFileId: string) => {
+  return `${appwriteConfig.endpointUrl}/storage/buckets/${appwriteConfig.bucketId}/files/${bucketFileId}/view?project=${appwriteConfig.projectId}`;
 };
