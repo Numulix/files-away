@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { avatarPlaceholder, navItems } from "@/constants";
+import { navItems } from "@/constants";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 
