@@ -10,3 +10,37 @@ export const avatarPlaceholder =
   "https://static-00.iconduck.com/assets.00/avatar-default-icon-2048x2048-h6w375ur.png";
 
 export const MAX_FILE_SIZE = 50 * 1024 * 1024;
+
+interface ActionDropdownItem {
+  label: string;
+  icon: string;
+  value: ActionType;
+}
+
+export const actionsDropdownItems: ActionDropdownItem[] = [
+  {
+    label: "Rename",
+    icon: "/assets/icons/actions/edit.svg",
+    value: "rename",
+  },
+  {
+    label: "Details",
+    icon: "/assets/icons/actions/info.svg",
+    value: "details",
+  },
+  {
+    label: "Share",
+    icon: "/assets/icons/actions/share.svg",
+    value: "share",
+  },
+  {
+    label: "Download",
+    icon: "/assets/icons/actions/download.svg",
+    value: "download",
+  },
+  {
+    label: "Delete",
+    icon: "/assets/icons/actions/delete.svg",
+    value: "delete",
+  },
+];
