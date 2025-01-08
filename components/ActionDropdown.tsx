@@ -2,7 +2,13 @@
 
 import { Models } from "node-appwrite";
 import React, { useState } from "react";
-import { Dialog } from "./ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "./ui/dialog";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -12,14 +18,70 @@ import {
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
 import Image from "next/image";
-import { actionsDropdownItems } from "@/constants";
+import { ActionDropdownItem, actionsDropdownItems } from "@/constants";
 import Link from "next/link";
 import { constructDownloadUrl } from "@/lib/utils";
+import { Input } from "./ui/input";
+import { Button } from "./ui/button";
 
 const ActionDropdown = ({ file }: { file: Models.Document }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [action, setAction] = useState<ActionType | null>(null);
+  const [action, setAction] = useState<ActionDropdownItem | null>(null);
+  const [name, setName] = useState<string>(file.name);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  const closeModals = () => {
+    setIsModalOpen(false);
+    setIsDropdownOpen(false);
+    setAction(null);
+    setName(file.name);
+    // setEmails([]);
+  };
+
+  const handleAction = async () => {};
+
+  const renderDialogContent = () => {
+    if (!action) return null;
+
+    const { value, label } = action;
+
+    return (
+      <DialogContent className="shad-dialog button">
+        <DialogHeader className="flex flex-col gap-3">
+          <DialogTitle className="text-center text-light-100">
+            {label}
+          </DialogTitle>
+          {value === "rename" && (
+            <Input
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
+          )}
+        </DialogHeader>
+        {["rename", "delete", "share"].includes(value) && (
+          <DialogFooter className="flex flex-col gap-3 md:flex-row">
+            <Button onClick={closeModals} className="modal-cancel-button">
+              Cancel
+            </Button>
+            <Button onClick={handleAction} className="modal-submit-button">
+              <p className="capitalize">{value}</p>
+              {isLoading && (
+                <Image
+                  src="/assets/gear-spinner.svg"
+                  alt="loader"
+                  width={24}
+                  height={24}
+                  className="animate-spin"
+                />
+              )}
+            </Button>
+          </DialogFooter>
+        )}
+      </DialogContent>
+    );
+  };
 
   return (
     <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
@@ -42,7 +104,7 @@ const ActionDropdown = ({ file }: { file: Models.Document }) => {
               key={actionItem.value}
               className="shad-dropdown-item"
               onClick={() => {
-                setAction(actionItem.value);
+                setAction(actionItem);
 
                 if (
                   ["rename", "share", "delete", "details"].includes(
@@ -68,7 +130,7 @@ const ActionDropdown = ({ file }: { file: Models.Document }) => {
                   {actionItem.label}
                 </Link>
               ) : (
-                <div className="flex item-center gap-2">
+                <div className="flex items-center gap-2">
                   <Image
                     src={actionItem.icon}
                     alt={actionItem.label}
@@ -82,6 +144,8 @@ const ActionDropdown = ({ file }: { file: Models.Document }) => {
           ))}
         </DropdownMenuContent>
       </DropdownMenu>
+
+      {renderDialogContent()}
     </Dialog>
   );
 };

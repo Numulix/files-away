@@ -11,7 +11,7 @@ export const avatarPlaceholder =
 
 export const MAX_FILE_SIZE = 50 * 1024 * 1024;
 
-interface ActionDropdownItem {
+export interface ActionDropdownItem {
   label: string;
   icon: string;
   value: ActionType;
