@@ -16,3 +16,10 @@ declare type ActionType =
   | "share"
   | "download"
   | "delete";
+
+declare interface RenameFileProps {
+  fileId: string;
+  name: string;
+  extension: string;
+  path: string;
+}
