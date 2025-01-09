@@ -55,6 +55,21 @@ export const getFileType = (fileName: string) => {
   return { type: "other", extension };
 };
 
+export const getFileTypeParams = (type: string): FileType[] => {
+  switch (type) {
+    case "documents":
+      return ["document"];
+    case "images":
+      return ["image"];
+    case "media":
+      return ["video", "audio"];
+    case "others":
+      return ["other"];
+    default:
+      return ["document"];
+  }
+};
+
 export const convertFileToURL = (file: File) => URL.createObjectURL(file);
 
 export const getFileIcon = (extenstion: string, type: string) => {

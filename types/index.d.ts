@@ -17,6 +17,8 @@ declare type ActionType =
   | "download"
   | "delete";
 
+declare type FileType = "document" | "image" | "video" | "audio" | "other";
+
 declare interface RenameFileProps {
   fileId: string;
   name: string;
@@ -34,4 +36,11 @@ declare interface DeleteFileProps {
   fileId: string;
   bucketFileId: string;
   path: string;
+}
+
+declare interface GetFilesProps {
+  types: FileType[];
+  searchText?: string;
+  sort?: string;
+  limit?: number;
 }
