@@ -1,9 +1,23 @@
-import Image from "next/image";
+import Chart from "@/components/Chart";
+import { getFiles, getUsedSpace } from "@/lib/actions/file.actions";
+import { getUsageSummary } from "@/lib/utils";
+import React from "react";
 
-export default function Home() {
+const Dashboard = async () => {
+  const [files, usedSpace] = await Promise.all([
+    getFiles({ types: [], limit: 10 }),
+    getUsedSpace(),
+  ]);
+
+  const usageSummary = getUsageSummary(usedSpace);
+
   return (
-    <div className="flex-center h-screen">
-      <h1 className="h1">FilesAway - Where your files meet a new home</h1>
+    <div className="dashboard-container">
+      <section>
+        <Chart used={usedSpace.used} />
+      </section>
     </div>
   );
-}
+};
+
+export default Dashboard;

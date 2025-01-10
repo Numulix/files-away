@@ -151,3 +151,45 @@ export const formatDateTime = (isoString: string | null | undefined) => {
 export const constructDownloadUrl = (bucketFileId: string) => {
   return `${appwriteConfig.endpointUrl}/storage/buckets/${appwriteConfig.bucketId}/files/${bucketFileId}/download?project=${appwriteConfig.projectId}`;
 };
+
+export const getUsageSummary = (totalSpace: any) => {
+  return [
+    {
+      title: "Documents",
+      size: totalSpace.document.size,
+      latestDate: totalSpace.document.latestDate,
+      icon: "/assets/icons/document.svg",
+      url: "/documents",
+    },
+    {
+      title: "Images",
+      size: totalSpace.image.size,
+      latestDate: totalSpace.image.latestDate,
+      icon: "/assets/icons/image.svg",
+      url: "/images",
+    },
+    {
+      title: "Media",
+      size: totalSpace.video.size + totalSpace.audio.size,
+      latestDate:
+        totalSpace.video.latestDate > totalSpace.audio.latestDate
+          ? totalSpace.video.latestDate
+          : totalSpace.audio.latestDate,
+      icon: "/assets/icons/video.svg",
+      url: "/media",
+    },
+    {
+      title: "Others",
+      size: totalSpace.other.size,
+      latestDate: totalSpace.other.latestDate,
+      icon: "/assets/icons/other.svg",
+      url: "/others",
+    },
+  ];
+};
+
+export const calculateUsedPercentage = (sizeBytes: number) => {
+  const totalSize = 2 * 1024 * 1024 * 1024;
+  const percentage = (sizeBytes / totalSize) * 100;
+  return Number(percentage.toFixed(2));
+};
