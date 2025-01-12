@@ -75,8 +75,8 @@ const Chart = ({ used = 0 }: { used: number }) => {
                           {used && calculateUsedPercentage(used)
                             ? calculateUsedPercentage(used)
                                 .toString()
-                                .replace(/^0+/, "")
-                            : "0"}
+                                .replace(/^0+/, "") + " %"
+                            : "0 %"}
                         </tspan>
                         <tspan
                           x={viewBox.cx}

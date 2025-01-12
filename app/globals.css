@@ -185,7 +185,7 @@
     @apply relative mt-6 rounded-[20px] bg-white p-5 transition-all hover:scale-105 !important;
   }
   .summary-type-icon {
-    @apply absolute -left-3 top-[-25px] z-10 w-[190px] object-contain !important;
+    @apply absolute left-3 top-[-25px] z-10 px-3 top-3 object-contain !important;
   }
   .summary-type-size {
     @apply h4 relative z-20 w-full text-right !important;
