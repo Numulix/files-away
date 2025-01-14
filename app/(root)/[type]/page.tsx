@@ -1,7 +1,7 @@
 import Card from "@/components/Card";
 import Sort from "@/components/Sort";
-import { getFiles } from "@/lib/actions/file.actions";
-import { getFileTypeParams } from "@/lib/utils";
+import { getFiles, getUsedSpaceForType } from "@/lib/actions/file.actions";
+import { convertFileSize, getFileTypeParams } from "@/lib/utils";
 import { Models } from "node-appwrite";
 import React from "react";
 
@@ -12,7 +12,10 @@ const Page = async ({ searchParams, params }: SearchParamProps) => {
 
   const types = getFileTypeParams(type);
 
-  const files = await getFiles({ types, searchText, sort });
+  const [files, usedSpace] = await Promise.all([
+    getFiles({ types, searchText, sort }),
+    getUsedSpaceForType(type),
+  ]);
 
   return (
     <div className="page-container">
@@ -21,7 +24,7 @@ const Page = async ({ searchParams, params }: SearchParamProps) => {
 
         <div className="total-size-section">
           <p className="body-1">
-            Total: <span className="h5">0 MB</span>
+            Total: <span className="h5">{convertFileSize(usedSpace.size)}</span>
           </p>
 
           <div className="sort-container">

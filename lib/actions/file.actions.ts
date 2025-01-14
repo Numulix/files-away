@@ -246,3 +246,48 @@ export const getUsedSpace = async () => {
     handleError(error, "Error calculating total space used.");
   }
 };
+
+export const getUsedSpaceForType = async (type: string) => {
+  try {
+    const { databases } = await createSessionClient();
+    const currentUser = await getCurrentUser();
+
+    if (!currentUser) throw new Error("User is not authenticated");
+
+    const types =
+      type === "media"
+        ? (["video", "audio"] as FileType[])
+        : ([type.replace("s", "")] as FileType[]);
+
+    const files = await databases.listDocuments(
+      appwriteConfig.databaseId,
+      appwriteConfig.filesCollectionId,
+      [
+        Query.and([
+          Query.equal("owner", [currentUser.$id]),
+          Query.equal("type", types),
+        ]),
+      ]
+    );
+
+    const totalSpace = {
+      size: 0,
+      latestDate: "",
+    };
+
+    files.documents.forEach((file) => {
+      totalSpace.size += file.size;
+
+      if (
+        !totalSpace.latestDate ||
+        new Date(file.$updatedAt) > new Date(totalSpace.latestDate)
+      ) {
+        totalSpace.latestDate = file.$updatedAt;
+      }
+    });
+
+    return parseStringify(totalSpace);
+  } catch (error) {
+    handleError(error, "Error calculating total space used.");
+  }
+};
