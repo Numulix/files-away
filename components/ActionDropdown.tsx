@@ -30,6 +30,7 @@ import {
 } from "@/lib/actions/file.actions";
 import { usePathname } from "next/navigation";
 import { FileDetails, ShareInput } from "./ActionsModalContent";
+import { useToast } from "@/hooks/use-toast";
 
 const ActionDropdown = ({ file }: { file: Models.Document }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -40,6 +41,7 @@ const ActionDropdown = ({ file }: { file: Models.Document }) => {
   const [emails, setEmails] = useState<string[]>([]);
 
   const path = usePathname();
+  const { toast } = useToast();
 
   const closeModals = () => {
     setIsModalOpen(false);
@@ -69,6 +71,13 @@ const ActionDropdown = ({ file }: { file: Models.Document }) => {
     if (success) closeModals();
 
     setIsLoading(false);
+
+    return toast({
+      description: (
+        <p className="body-2 text-white">Task completed successfully</p>
+      ),
+      className: "success-toast",
+    });
   };
 
   const handleRemoveUser = async (email: string) => {
