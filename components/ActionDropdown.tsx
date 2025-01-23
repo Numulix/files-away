@@ -72,11 +72,20 @@ const ActionDropdown = ({ file }: { file: Models.Document }) => {
 
     setIsLoading(false);
 
-    return toast({
+    showToast(success);
+  };
+
+  const showToast = (success: boolean) => {
+    toast({
+      className: success ? "success-toast" : "error-toast",
       description: (
-        <p className="body-2 text-white">Task completed successfully</p>
+        <p className="body-2 text-white">
+          {success ? "Task completed successfully" : "Task failed"}
+        </p>
       ),
-      className: "success-toast",
+      title: (
+        <p className="body-1 text-white">{`${file.name} ${action?.value}`}</p>
+      ),
     });
   };
 
